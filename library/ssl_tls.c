@@ -5726,27 +5726,27 @@ static int ssl_append_key_cert( mbedtls_ssl_key_cert **head,
                                 mbedtls_x509_crt *cert,
                                 mbedtls_pk_context *key )
 {
-    mbedtls_ssl_key_cert *new;
+    mbedtls_ssl_key_cert *new_key_cert;
 
-    new = mbedtls_calloc( 1, sizeof( mbedtls_ssl_key_cert ) );
-    if( new == NULL )
+    new_key_cert = mbedtls_calloc( 1, sizeof( mbedtls_ssl_key_cert ) );
+    if( new_key_cert == NULL )
         return( MBEDTLS_ERR_SSL_ALLOC_FAILED );
 
-    new->cert = cert;
-    new->key  = key;
-    new->next = NULL;
+    new_key_cert->cert = cert;
+    new_key_cert->key  = key;
+    new_key_cert->next = NULL;
 
     /* Update head is the list was null, else add to the end */
     if( *head == NULL )
     {
-        *head = new;
+        *head = new_key_cert;
     }
     else
     {
         mbedtls_ssl_key_cert *cur = *head;
         while( cur->next != NULL )
             cur = cur->next;
-        cur->next = new;
+        cur->next = new_key_cert;
     }
 
     return( 0 );
